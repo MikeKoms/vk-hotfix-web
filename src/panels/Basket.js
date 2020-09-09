@@ -14,6 +14,7 @@ const Basket = ({ match: { params: { areaId, itemId }}, foodAreas, order }) => {
   const [ selfService, setSelfService ] = useState(false);
   const area = foodAreas.filter(area => area.id === areaId)[0];
   const item = area.items.filter(item => item.id === itemId)[0];
+  const timeRegex = RegExp('^([0-1][0-9]|2[0-3]):([0-5][0-9])$');
 
   const [ price, products ] = useMemo(() => {
     const foodIds = new Set((item.foods || []).map(item => item.id));
@@ -148,6 +149,11 @@ const Basket = ({ match: { params: { areaId, itemId }}, foodAreas, order }) => {
       </div>
       <footer className="Place__footer">
         <Link to={`/order/${area.id}/${item.id}`} onClick={(e) => {
+          if (!timeRegex.test(time)) {
+            e.preventDefault()
+            alert("время указано неверно :(")
+          }
+
           if (price === "0")
             e.preventDefault();
         }} className="Place__order">
