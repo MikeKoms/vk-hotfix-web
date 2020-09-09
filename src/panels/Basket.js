@@ -149,7 +149,7 @@ const Basket = ({ match: { params: { areaId, itemId }}, foodAreas, order }) => {
       </div>
       <footer className="Place__footer">
         <Link to={`/order/${area.id}/${item.id}`} onClick={(e) => {
-          if (!timeRegex.test(time)) {
+          if (!timeRegex.test(time) && !faster) {
             e.preventDefault()
             alert("время указано неверно :(")
           }
